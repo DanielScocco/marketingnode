@@ -1,0 +1,56 @@
+doctype html
+html(lang='en')
+  include head.pug
+  body
+    #page-wrapper
+      .container-fluid
+        // Page Heading
+        .row
+          .col-lg-12
+            div(align='center')
+              h1.page-header
+                img(src='/images/logo.png')
+        // /.row
+      // /.container-fluid
+      div(align='center')
+        br
+        .row
+          .col-md-12
+            form(role='form', action='/login', method='POST')
+              label Member Login
+              if usrError
+                br
+                label.redFont *Incorrect email or password
+              br
+              input(type='email', placeholder='Email',name='email')
+              br
+              input(type='password', placeholder='Password',name='pass')
+              br
+              br
+              button.btn.btn-success(type='submit') Submit
+        br
+        br
+        .row
+          .col-md-12
+            form(role='form', action='/signup', method='POST')
+              label New Member Signup
+              if refError
+                br
+                label.redFont *Couldn't find referring member
+              br 
+              input(type='email',placeholder='Email of Referring Member', name='referral')  
+              br
+              input(type='email', placeholder='Your Email', name='email')
+              br
+              input(type='password', placeholder='Password', name='pass')
+              br
+              br
+              label.notBold
+                  input#checkbox1(type='checkbox',required)
+                  | I agree with the 
+                  a(href='/terms/') Terms of Service
+              br
+              br
+              button.btn.btn-success(type='submit') Submit
+    // /#page-wrapper
+    include footer.pug

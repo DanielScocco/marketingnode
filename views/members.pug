@@ -1,0 +1,79 @@
+doctype html
+html(lang='en')
+  include head.pug
+  body
+    #page-wrapper
+      .container-fluid
+        // Page Heading
+        .row
+          .col-lg-12
+            div(align='center')
+              h1.page-header
+                img(src='/images/logo.png')
+            ol.breadcrumb
+              li.active
+                i.fa.fa-user
+                |  User: 
+                strong #{email}
+              li.active
+                i.fa.fa-money
+                |  Points: 
+                strong #{points}
+              li.active
+                i.fa.fa-envelope
+                a(href='mailto:daniel@dailyblogtips.com')  Send Us Feedback
+              li.active
+                i.fa.fa-sign-out 
+                a(href='/logout/')  Logout
+            if showInfo
+              .alert.alert-success
+                strong How it works:
+                |  Marketing Node is a community of webmasters and Internet marketers. The goal is to foster collaboration, helping members gain more exposure and traffic to their sites. Every time you link to a page listed on the "Request Board" below you earn points. The higher the domain authority of the page where the link is featured, the more points you earn. Once you reach 10 points you can post your own page on the "Request Board," so that other members will link to it and earn points. In other words, we want to create a meritocratic system where the more you help others, the more they will help you. We are in beta, so suggestions are welcome.
+            .alert.alert-danger
+              strong Rules:
+              ul
+                li You can link from sites you own, or from other sites via guest posts.
+                li Only link from high-quality and relevant sites, else you will get banned.
+                li Only post requests to high-quality content, else you might get banned.
+                li No gambling, porn, violence or related content.
+                li You are not obligated to link to any of the requests. Only do so if you believe the content is relevant to your site/guest post, and high-quality.
+            .alert.alert-success
+              strong Earn points
+              |  (paste the URL where you linked to one of the requests)
+              if showGain
+                br
+                label.orangeFont *You earned #{newPoints} points
+              form(name='earnPoints',role='form',method='POST',action='/earnPoints',onsubmit='return checkEarnPoints()')
+                input.long(type='text',placeholder='URL',name='url')
+                br
+                br
+                button.btn.btn-success(type='submit') Submit
+            .alert.alert-info
+              strong Post a Request (10 points required)
+              form(name='postRequest',role='form',method='POST',action='/postRequest',onsubmit='return checkPostRequest()')
+                if pointsErr
+                  label.redFont *You don't have 10 points yet
+                  br
+                else if success
+                  label.greenFont *Request added to the board!
+                  br
+                input.long(type='text',placeholder='Title',name='title')
+                br
+                input.long(type='text',placeholder='URL',name='url')
+                br
+                br
+                button.btn.btn-success(type='submit') Submit
+            .panel.panel-default
+              .panel-heading
+                h3.panel-title
+                i.fa.fa-clock-o.fa-rw
+                |   Requests Board
+              .panel-body
+                .list-group
+                  each val, index in requests
+                    .list-group-item
+                      a(href=val) #{index}
+        // /.row
+      // /.container-fluid
+    // /#page-wrapper
+    include footer.pug
